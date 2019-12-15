@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>kou's page</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+  <style>
+    .custom-menu {
+      background-color: indigo;
+      padding: .5em;
+    }
+
+    .custom-menu-item-link {
+      color: white;
+      padding: .5em;
+      text-decoration: none;
+    }
+
+    .custom-menu-item-link:hover {
+      background-color: blue;
+      transition-duration: .5s;
+    }
+    
+    header {
+      background-color: skyblue;
+      padding: 2.5em;
+    }
+
+    footer {
+      background-color: lightgray;
+      text-align: center;
+    }
+
+    .secondview {
+      margin: .5em;
+      padding: .5em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- app -->
+<div id="app">
+<div class="pure-menu pure-menu-horizontal custom-menu">
+  <ul class="pure-menu-list">
+    <li class="pure-menu-item"><router-link to="/home" class="custom-menu-item-link">Home</router-link></li>
+    <li class="pure-menu-item"><router-link to="/about" class="custom-menu-item-link">About</router-link></li>
+    <li class="pure-menu-item"><router-link to="/project" class="custom-menu-item-link">Project</router-link></li>
+    <li class="pure-menu-item"><router-link to="/contact" class="custom-menu-item-link">Contact</router-link></li>
+  </ul>
+</div>
+<router-view></router-view>
+<footer>
+  <p><small>&copy; 2019 kou50126</small></p>
+</footer>
+</div>
+
+<!-- cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<!-- home -->
+<script type="text/x-template" id="home">
+  <div class="firstview">
+    <header>
+      <h1>Hello World!</h1>
+      <p>kou50126 のページ</p>
+    </header>
+    <div class="secondview"></div>
+  </div>
+</script>
+
+<!-- about -->
+<script type="text/x-template" id="about">
+  <div class="firstview">
+    <header>
+      <h2>About</h2>
+    </header>
+    <div class="secondview">
+      <h3>自己紹介</h3>
+      <table class="pure-table">
+        <thead>
+          <tr>
+            <th>name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>kou50126</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</script>
+
+<!-- project -->
+<script type="text/x-template" id="project">
+  <div class="firstview">
+    <header>
+      <h2>プロジェクト</h2>
+    </header>
+    <div class="secondview"></div>
+  </div>
+</script>
+
+<!-- contact -->
+<script type="text/x-template" id="contact">
+  <div class="firstview">
+    <header>
+      <h2>連絡先</h2>
+    </header>
+    <div class="secondview">
+      <p>メールアドレス</p>
+      <address>
+        <a href="mailto:kou50126@outlook.jp">kou50126@outlook.jp</a>
+      </address>
+    </div>
+  </div>
+</script>
+
+<script type="text/x-template" id="notfound">
+  <div class="firstview">
+    <header>
+      <h2>存在しないページです。URL を確認してください</h2>
+    </header>
+    <div class="secondview">
+      <router-link to="/">ホームへ戻る</router-link>
+    </div>
+  </div>
+</script>
+
+<!-- script -->
+<script>
+  function getRoutes() {
+    let templates = document.querySelectorAll('script[type="text/x-template"]')
+    let routes = []
+    
+    for (let i = 0; i < templates.length; i++) {
+      let template = templates[i].id
+
+      routes[i] = {
+        path: `/${template}`,
+        component: {
+          template: `#${template}`
+        }
+      }
+    }
+
+    return routes
+  }
+
+  const routes = getRoutes()
+
+  routes.push({
+    path: '/',
+    component: {
+      template: '#home'
+    }
+  },
+  {
+    path: '/*',
+    component: {
+      template: '#notfound'
+    }
+  })
+
+  routes.push()
+
+  const router = new VueRouter({
+    routes
+  })
+
+  const app = new Vue({
+    router
+  }).$mount('#app')
+</script>
+
+</body>
+</html>
